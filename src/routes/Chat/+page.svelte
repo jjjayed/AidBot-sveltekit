@@ -1,0 +1,190 @@
+<script lang="ts">
+	import bot from '$assets/bot.png';
+	import user from '$assets/user.png';
+
+	import jsonMessage from './chat.json';
+
+	let message: string;
+	let pushMessage: string;
+
+	function handleChatMessage() {
+		pushMessage = message;
+		console.log(pushMessage);
+		message = '';
+	}
+</script>
+
+<main>
+	<h1>Chat Page</h1>
+
+	<div class="chat-container">
+		{#each jsonMessage as chat, i}
+			{#if chat.role === 'bot'}
+				{#if i > 0 && jsonMessage[i - 1].role === 'bot'}
+					<div class="message-container continue bot">
+						<img src={bot} alt="bot" class="empty" />
+						<p class="message">
+							{chat.message}
+						</p>
+					</div>
+				{:else}
+					<div class="message-container bot">
+						<img src={bot} alt="bot" />
+						<p class="message">
+							{chat.message}
+						</p>
+					</div>
+				{/if}
+			{:else if chat.role === 'user'}
+				{#if i > 0 && jsonMessage[i - 1].role === 'user'}
+					<div class="message-container continue user">
+						<img src={user} alt="user" class="empty" />
+						<p class="message">
+							{chat.message}
+						</p>
+					</div>
+				{:else}
+					<div class="message-container user">
+						<img src={user} alt="user" />
+						<p class="message">
+							{chat.message}
+						</p>
+					</div>
+				{/if}
+			{/if}
+		{/each}
+	</div>
+	<form
+		class="chat-input-container"
+		on:submit|preventDefault={() => {
+			handleChatMessage();
+		}}
+	>
+		<input type="text" placeholder="Ask something..." bind:value={message} />
+		<button class="send" />
+	</form>
+</main>
+
+<!-- put an after selector to put the name of aidbot and userdisplayname -->
+
+<style lang="scss">
+	* {
+		font-family: 'Montserrat', sans-serif;
+	}
+
+	main {
+		width: min(140em, 95%);
+		margin-inline: auto;
+		margin-top: 5em;
+		padding-inline: 2%;
+
+		h1 {
+			font-size: $font-size-xxxl;
+			line-height: 110%;
+			color: $text-darker;
+		}
+
+		p {
+			font-size: $font-size-base;
+			margin: 0.5em 0 1em 0;
+			color: $text-darker;
+		}
+
+		.chat-container {
+			margin-top: 5em;
+			display: flex;
+			flex-direction: column;
+			gap: 5em;
+			width: 95%;
+			margin-inline: auto;
+
+			.message-container {
+				display: flex;
+				gap: 1.5em;
+				width: 50%;
+				// justify-content: center;
+
+				.empty {
+					visibility: hidden;
+				}
+				img {
+					width: 5em;
+					height: 100%;
+					align-self: flex-end;
+				}
+				.message {
+					padding: 1em;
+					border-radius: 20px;
+					margin: 0;
+				}
+			}
+
+			.message-container.continue {
+				margin-top: -2em;
+			}
+			.bot .message {
+				background-color: $primary;
+				color: $white;
+				margin-right: auto;
+			}
+
+			.user {
+				text-align: right;
+				margin-left: auto;
+				flex-flow: row-reverse;
+
+				.message {
+					background-color: $accent;
+					color: $white;
+				}
+			}
+		}
+
+		.chat-input-container {
+			margin-top: 10em;
+			display: flex;
+			width: min(80em, 100%);
+			text-decoration: none;
+			font-size: $font-size-base;
+			font-family: inherit;
+			color: $text;
+			gap: 2em;
+			margin-inline: auto;
+			justify-content: center;
+			align-items: center;
+
+			position: sticky;
+			bottom: 0;
+			padding-bottom: 2em;
+			input {
+				padding: 1em 1.5em;
+				border: none;
+				border-radius: 10px;
+				background-color: hsla(0, 0%, 84%, 1);
+				width: 100%;
+			}
+
+			.send {
+				background: url('$assets/send_FILL0_wght400_GRAD0_opsz48.png') center no-repeat,
+					linear-gradient(40deg, $primary, $accent);
+				background: url('$assets/send_FILL0_wght400_GRAD0_opsz48.png') center no-repeat,
+					-webkit-linear-gradient(40deg, $primary, $accent);
+				background-size: contain;
+				width: 50px;
+				height: 50px;
+				border-radius: 10px;
+				padding: 1em 2em;
+				border: none;
+				cursor: pointer;
+				transition: all 0.4s ease-in-out;
+
+				&:hover {
+					background: url('$assets/send_FILL0_wght400_GRAD0_opsz48.png') center no-repeat,
+						-webkit-linear-gradient(40deg, #f13b1f9d, #4056a19d);
+					background: url('$assets/send_FILL0_wght400_GRAD0_opsz48.png') center no-repeat,
+						linear-gradient(40deg, #f13b1f9d, #4056a19d);
+				}
+			}
+		}
+	}
+</style>

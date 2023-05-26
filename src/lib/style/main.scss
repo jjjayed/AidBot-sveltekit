@@ -1,0 +1,21 @@
+$primary: #f13c1f;
+$secondary: #fff8e5;
+$accent: #4056a1;
+$white: #f0f0f0;
+
+$background: #f1f0eb;
+$text: #6c6b66;
+$text-darker: #2b2b2b;
+
+//fs
+$font-size-sm: clamp(1.28rem, 0.14vw + 1.23rem, 1.43rem);
+$font-size-base: clamp(1.6rem, 0.28vw + 1.49rem, 1.9rem);
+$font-size-md: clamp(2rem, 0.5vw + 1.81rem, 2.53rem);
+$font-size-lg: clamp(2.5rem, 0.82vw + 2.19rem, 3.38rem);
+$font-size-xl: clamp(3.13rem, 1.29vw + 2.64rem, 4.5rem);
+$font-size-xxl: clamp(3.91rem, 1.96vw + 3.17rem, 6rem);
+$font-size-xxxl: clamp(4.88rem, 2.92vw + 3.79rem, 8rem);
+
+* {
+	font-family: 'Montserrat', sans-serif;
+}
