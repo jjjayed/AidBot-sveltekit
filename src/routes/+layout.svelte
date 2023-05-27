@@ -2,12 +2,12 @@
 	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { auth } from '$lib/firebase/firebase.client';
 	import logo from '$assets/AidBot.png';
 	import fb from '$assets/fb.png';
 	import git from '$assets/git.png';
 	import insta from '$assets/insta.png';
 	import twitter from '$assets/twitter.png';
+	import { auth } from '$lib/firebase/firebase.client';
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 	import { authHandlers, authStore } from '../stores/authStore';
@@ -51,10 +51,12 @@
 				browser &&
 				!$authStore?.currentUser &&
 				!$authStore.isLoading &&
-				window.location.pathname !== '/Account'
+				window.location.pathname !== '/Account' &&
+				window.location.pathname !== '/'
 			) {
 				goto('/Account');
-				console.log(authStore.currentUser, authStore.isLoading);
+
+				// console.log(authStore.currentUser, authStore.isLoading);
 			}
 		});
 		return unsubscribe;
