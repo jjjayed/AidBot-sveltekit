@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { registered } from '../stores/registered';
+	import { registered } from '$stores/registered';
 
 	let screenSize: number;
 

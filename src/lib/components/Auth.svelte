@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { authHandlers, authStore } from '../../stores/authStore.js';
-	import { registered } from '../../stores/registered.js';
+	import { authHandlers, authStore } from '$stores/authStore.js';
+	import { registered } from '$stores/registered.js';
 
 	let email = '';
 	let password = '';

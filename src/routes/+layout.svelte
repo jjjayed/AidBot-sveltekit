@@ -8,10 +8,10 @@
 	import insta from '$assets/insta.png';
 	import twitter from '$assets/twitter.png';
 	import { auth } from '$lib/firebase/firebase.client';
+	import { authHandlers, authStore } from '$stores/authStore';
+	import { registered } from '$stores/registered';
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
-	import { authHandlers, authStore } from '../stores/authStore';
-	import { registered } from '../stores/registered';
 
 	let screenSize: number;
 	let burger: HTMLElement;
