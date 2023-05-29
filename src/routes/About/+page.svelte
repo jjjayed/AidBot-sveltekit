@@ -142,6 +142,7 @@
 
 		.right {
 			grid-template-areas: 'text img';
+			padding-left: 2%;
 			.image-container {
 				border-radius: 50px 0 0 50px;
 			}
@@ -278,6 +279,16 @@
 	}
 
 	main.mobile {
+		section {
+			margin: 5em auto 2em auto;
+			gap: 0;
+			padding-left: 2%;
+		}
+
+		.text {
+			width: 80%;
+		}
+
 		.left {
 			grid-template-rows: 1fr 1fr;
 			grid-template-areas:
@@ -285,18 +296,22 @@
 				'text text';
 			padding-left: 0;
 			text-align: right;
+
+			.text {
+				margin-left: auto;
+				margin-right: 2em;
+			}
 		}
 
 		.right {
 			grid-template-rows: 1fr 1fr;
 			grid-template-areas:
-				'img img '
+				'img img'
 				'text text';
-			padding-left: 0;
 			text-align: left;
 
 			.text {
-				padding-left: 2%;
+				margin-left: 2em;
 			}
 		}
 
