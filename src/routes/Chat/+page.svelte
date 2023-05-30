@@ -3,9 +3,10 @@
 	import user from '$assets/user.png';
 	import { beforeUpdate, onMount } from 'svelte';
 	import { writable } from 'svelte/store';
+	import { fade } from 'svelte/transition';
 
 	let message: string;
-	let pushMessage: string;
+	let isResLoading = false;
 
 	const jsonMessage = writable([
 		{
@@ -42,6 +43,7 @@
 			console.log(pushMessage);
 			pushChat(pushMessage, 'user');
 			getResponse(pushMessage);
+			isResLoading = true;
 		}
 
 		message = '';
@@ -76,7 +78,7 @@
 		};
 
 		// change to public api when available
-		fetch('http://localhost:5000/aid-bot', requestOptions)
+		fetch('http://f075-180-190-109-22.ngrok-free.app/aid-bot', requestOptions)
 			.then((response) => {
 				if (response.ok) {
 					return response.json();
@@ -86,6 +88,7 @@
 			})
 			.then((result) => {
 				if (result.response) {
+					isResLoading = false;
 					pushChat(result.response, 'bot');
 				} else {
 					pushChat("Sorry, I can't process your previous chat message.", 'bot');
@@ -102,14 +105,14 @@
 		{#each $jsonMessage as chat, i}
 			{#if chat.role === 'bot'}
 				{#if i > 0 && $jsonMessage[i - 1].role === 'bot'}
-					<div class="message-container continue bot">
+					<div transition:fade class="message-container continue bot">
 						<img src={bot} alt="bot" class="empty" />
 						<p class="message">
 							{chat.message}
 						</p>
 					</div>
 				{:else}
-					<div class="message-container bot">
+					<div transition:fade class="message-container bot">
 						<img src={bot} alt="bot" />
 						<p class="message">
 							{chat.message}
@@ -118,14 +121,14 @@
 				{/if}
 			{:else if chat.role === 'user'}
 				{#if i > 0 && $jsonMessage[i - 1].role === 'user'}
-					<div class="message-container continue user">
+					<div transition:fade class="message-container continue user">
 						<img src={user} alt="user" class="empty" />
 						<p class="message">
 							{chat.message}
 						</p>
 					</div>
 				{:else}
-					<div class="message-container user">
+					<div transition:fade class="message-container user">
 						<img src={user} alt="user" />
 						<p class="message">
 							{chat.message}
@@ -135,6 +138,14 @@
 			{/if}
 		{/each}
 	</div>
+
+	{#if isResLoading}
+		{#key isResLoading}
+			<div transition:fade class="loading-container">
+				<p>Waiting for chat response...</p>
+			</div>
+		{/key}
+	{/if}
 	<form
 		class="chat-input-container"
 		on:submit|preventDefault={() => {
@@ -263,6 +274,37 @@
 					background: url('$assets/send_FILL0_wght400_GRAD0_opsz48.png') center no-repeat,
 						linear-gradient(40deg, #f13b1f9d, #4056a19d);
 				}
+			}
+		}
+
+		.loading-container {
+			margin-top: 5em;
+			padding: 2em;
+			background: linear-gradient(-45deg, $primary, $accent, $primary, $accent);
+			background-size: 400% 400%;
+			border-radius: 10px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 80%;
+			margin-inline: auto;
+			animation: bg-gradient 8s ease-in-out infinite alternate;
+
+			p {
+				color: $white;
+				margin: 0;
+			}
+		}
+
+		@keyframes bg-gradient {
+			0% {
+				background-position: 0% 50%;
+			}
+			50% {
+				background-position: 100% 50%;
+			}
+			100% {
+				background-position: 0% 50%;
 			}
 		}
 	}
