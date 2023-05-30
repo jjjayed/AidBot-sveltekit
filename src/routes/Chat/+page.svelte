@@ -1,16 +1,97 @@
 <script lang="ts">
 	import bot from '$assets/bot.png';
 	import user from '$assets/user.png';
-
-	import jsonMessage from './chat.json';
+	import { beforeUpdate, onMount } from 'svelte';
+	import { writable } from 'svelte/store';
 
 	let message: string;
 	let pushMessage: string;
 
+	const jsonMessage = writable([
+		{
+			role: 'bot',
+			message: 'Hi, I am AidBot! How can I help you today?'
+		}
+	]);
+
+	onMount(() => {
+		try {
+			const fileContent = localStorage.getItem('data');
+			if (fileContent) {
+				const data = JSON.parse(fileContent);
+				jsonMessage.set(data);
+				console.log('Loaded data:', data);
+			}
+		} catch (error) {
+			console.error('Error reading JSON file:', error);
+		}
+	});
+
+	function clearData() {
+		localStorage.clear();
+	}
+
+	beforeUpdate(() => {
+		window.addEventListener('beforeunload', clearData);
+	});
+
 	function handleChatMessage() {
-		pushMessage = message;
-		console.log(pushMessage);
+		const pushMessage = message.trim();
+
+		if (pushMessage.length > 0) {
+			console.log(pushMessage);
+			pushChat(pushMessage, 'user');
+			getResponse(pushMessage);
+		}
+
 		message = '';
+	}
+
+	function pushChat(message: string, role: string) {
+		const newObject = { role, message };
+
+		jsonMessage.update((messages) => [...messages, newObject]);
+
+		try {
+			const data = $jsonMessage;
+			localStorage.setItem('data', JSON.stringify(data, null, 2));
+			console.log('Object appended to JSON file successfully.');
+		} catch (error) {
+			console.error('Error writing JSON file:', error);
+		}
+	}
+
+	function getResponse(pushMessage: string) {
+		const header = new Headers();
+		header.append('Content-Type', 'application/x-www-form-urlencoded');
+
+		const urlencoded = new URLSearchParams();
+		urlencoded.append('text', pushMessage);
+
+		const requestOptions = {
+			method: 'POST',
+			headers: header,
+			body: urlencoded,
+			redirect: 'follow'
+		};
+
+		// change to public api when available
+		fetch('http://localhost:5000/aid-bot', requestOptions)
+			.then((response) => {
+				if (response.ok) {
+					return response.json();
+				} else {
+					return { response: null };
+				}
+			})
+			.then((result) => {
+				if (result.response) {
+					pushChat(result.response, 'bot');
+				} else {
+					pushChat("Sorry, I can't process your previous chat message.", 'bot');
+				}
+			})
+			.catch((error) => console.log('error', error));
 	}
 </script>
 
@@ -18,9 +99,9 @@
 	<h1>Chat Page</h1>
 
 	<div class="chat-container">
-		{#each jsonMessage as chat, i}
+		{#each $jsonMessage as chat, i}
 			{#if chat.role === 'bot'}
-				{#if i > 0 && jsonMessage[i - 1].role === 'bot'}
+				{#if i > 0 && $jsonMessage[i - 1].role === 'bot'}
 					<div class="message-container continue bot">
 						<img src={bot} alt="bot" class="empty" />
 						<p class="message">
@@ -36,7 +117,7 @@
 					</div>
 				{/if}
 			{:else if chat.role === 'user'}
-				{#if i > 0 && jsonMessage[i - 1].role === 'user'}
+				{#if i > 0 && $jsonMessage[i - 1].role === 'user'}
 					<div class="message-container continue user">
 						<img src={user} alt="user" class="empty" />
 						<p class="message">
@@ -64,8 +145,6 @@
 		<button class="send" />
 	</form>
 </main>
-
-<!-- put an after selector to put the name of aidbot and userdisplayname -->
 
 <style lang="scss">
 	* {
