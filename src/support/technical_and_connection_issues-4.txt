@@ -1,0 +1,9 @@
+SLOW OR INTERMITTENT CONNECTION
+If you are experiencing slow or intermittent connection, please note that your bandwidth is a resource shared by all devices connected to your modem. Try the following basic troubleshooting:
+- Detach and attach the fiber patch cord on the modem.
+- Turn off and on the Modem for 15 seconds.
+Note that the strength of the Wi-Fi signal deteriorates the farther you are from the modem. Physical obstructions also limit Wi-Fi connection integrity. For best results, find a spot clear of obstructions and limit the number of devices concurrently connected to the modem. Should you wish to experience very strong Wi-Fi connections, we recommend to:
+- Disconnect the other devices including third part router if any.
+- Plug a laptop or computer using a LAN cable directly to the modem to compare results.
+- Run speed test at https://convergeict.speedtest.net/.
+If this process does not work, please create a trouble ticket using our Tech Support Form or our self-service facility by calling (02) 8667 0850 or (045) 598 3000.
