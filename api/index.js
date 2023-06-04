@@ -24,9 +24,9 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static('public'));
-// app.listen('https://aidbot-sveltekit.vercel.app/api/aid-bot', () => {
-// 	// console.log(`API Port: http://localhost:${process.env.API_PORT}`);
-// });
+app.listen(5000, () => {
+	// console.log(`API Port: http://localhost:${process.env.API_PORT}`);
+});
 
 // app.listen();
 
@@ -263,5 +263,5 @@ app.post('/api/aid-bot', cors(), async (req, res) => {
 		return res.json({ error: 'Failed to generate response' });
 	}
 });
-module.exports = app;
+
 export default app;
