@@ -24,11 +24,11 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static('public'));
-app.listen(5000, () => {
-	// console.log(`API Port: http://localhost:${process.env.API_PORT}`);
-});
+// app.listen(5000, () => {
+// 	// console.log(`API Port: http://localhost:${process.env.API_PORT}`);
+// });
 
-// app.listen();
+app.listen();
 
 const model = new OpenAI({
 	openAIApiKey: process.env.OPENAI_API_KEY,
