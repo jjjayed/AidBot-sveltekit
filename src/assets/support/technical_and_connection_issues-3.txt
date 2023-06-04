@@ -1,0 +1,7 @@
+PON – NO LIGHT OR BLINKING LIGHT
+If your PON has no light, please do the following steps:
+1. Switch off your modem for 5 minutes then switch it back on.
+2. Check the condition of the fiber patch cord for any break, bend or damage.
+3. Ensure that both ends of the fiber patch cord is inserted correctly.
+4. Try to detach and re-attach both ends of the fiber patch cord.
+If this process does not work, please create a trouble ticket using our self-service facility by calling (02) 8667 0850 or (045) 598 3000.
