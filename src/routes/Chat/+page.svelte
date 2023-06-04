@@ -172,7 +172,7 @@
 
 	const options = Object.entries(languages).map(([key, label]) => ({ key, label }));
 
-	let selectedLang: string;
+	let selectedLang = 'auto';
 
 	function handleSelection(event: any) {
 		selectedLang = event.target.options[event.target.selectedIndex].lang;
@@ -193,8 +193,12 @@
 			redirect: 'follow'
 		};
 
-		// change to public api when available
-		fetch('https://b89d-180-190-109-22.ngrok-free.app/aid-bot', requestOptions)
+		const API_ENDPOINT =
+			process.env.NODE_ENV === 'production'
+				? 'https://aidbot-sveltekit.vercel.app/aid-bot'
+				: 'http://localhost:5000/aid-bot';
+
+		fetch(API_ENDPOINT, requestOptions)
 			.then((response) => {
 				if (response.ok) {
 					return response.json();
