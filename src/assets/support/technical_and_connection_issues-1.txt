@@ -1,0 +1,5 @@
+LAN – NO LIGHT
+If your LAN has no light:
+1. Switch off your modem for 5 minutes then switch it back on.
+2. Check both ends of the UTP cable if securely connected into the modem LAN port.
+If this process does not work, please create a trouble ticket using our self-service facility by calling (02) 8667 0850 or (045) 598 3000.
