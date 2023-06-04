@@ -35,7 +35,7 @@ const model = new OpenAI({
 });
 
 // Document Library and Chain
-const directoryLoader = new DirectoryLoader('./support', {
+const directoryLoader = new DirectoryLoader('support', {
 	'.txt': (path) => new TextLoader(path)
 	// TODO Add more file types
 });
@@ -53,7 +53,7 @@ const promptTemplate = new PromptTemplate({
 const llmChain = new LLMChain({ llm: model, prompt: promptTemplate });
 
 // Main API Endpoint
-app.post('/aid-bot', cors(), async (req, res) => {
+app.post('aid-bot/', cors(), async (req, res) => {
 	/*
 	 * API Process Flow
 	 * 1. Problem Processing (Sentiment Analysis, Problem Prioritization)
