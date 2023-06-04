@@ -193,10 +193,7 @@
 			redirect: 'follow'
 		};
 
-		const API_ENDPOINT =
-			process.env.NODE_ENV === 'production' ? '/aid-bot' : 'http://localhost:5000/aid-bot';
-
-		fetch('/api/aid-bot', requestOptions)
+		fetch('https://b89d-180-190-109-22.ngrok-free.app/aid-bot', requestOptions)
 			.then((response) => {
 				if (response.ok) {
 					return response.json();
