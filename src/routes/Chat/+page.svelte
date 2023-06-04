@@ -196,7 +196,7 @@
 		const API_ENDPOINT =
 			process.env.NODE_ENV === 'production' ? '/aid-bot' : 'http://localhost:5000/aid-bot';
 
-		fetch('../../../api/support/aid-bot', requestOptions)
+		fetch('../../../api/aid-bot', requestOptions)
 			.then((response) => {
 				if (response.ok) {
 					return response.json();
@@ -287,7 +287,12 @@
 			handleChatMessage();
 		}}
 	>
-		<input type="text" placeholder="Ask something..." bind:value={message} />
+		<input
+			type="text"
+			placeholder="Ask something..."
+			bind:value={message}
+			disabled={isResLoading}
+		/>
 		<button class="send" />
 	</form>
 </main>
