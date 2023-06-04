@@ -35,7 +35,7 @@ const model = new OpenAI({
 });
 
 // Document Library and Chain
-const directoryLoader = new DirectoryLoader('support/', {
+const directoryLoader = new DirectoryLoader('support', {
 	'.txt': (path) => new TextLoader(path)
 	// TODO Add more file types
 });
