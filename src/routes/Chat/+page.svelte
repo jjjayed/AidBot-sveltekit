@@ -63,12 +63,128 @@
 		}
 	}
 
+	const languages = {
+		auto: 'Automatic',
+		af: 'Afrikaans',
+		sq: 'Albanian',
+		ar: 'Arabic',
+		hy: 'Armenian',
+		az: 'Azerbaijani',
+		eu: 'Basque',
+		be: 'Belarusian',
+		bn: 'Bengali',
+		bs: 'Bosnian',
+		bg: 'Bulgarian',
+		ca: 'Catalan',
+		ceb: 'Cebuano',
+		ny: 'Chichewa',
+		'zh-cn': 'Chinese Simplified',
+		'zh-tw': 'Chinese Traditional',
+		co: 'Corsican',
+		hr: 'Croatian',
+		cs: 'Czech',
+		da: 'Danish',
+		nl: 'Dutch',
+		en: 'English',
+		eo: 'Esperanto',
+		et: 'Estonian',
+		tl: 'Filipino',
+		fi: 'Finnish',
+		fr: 'French',
+		fy: 'Frisian',
+		gl: 'Galician',
+		ka: 'Georgian',
+		de: 'German',
+		el: 'Greek',
+		gu: 'Gujarati',
+		ht: 'Haitian Creole',
+		ha: 'Hausa',
+		haw: 'Hawaiian',
+		iw: 'Hebrew',
+		hi: 'Hindi',
+		hmn: 'Hmong',
+		hu: 'Hungarian',
+		is: 'Icelandic',
+		ig: 'Igbo',
+		id: 'Indonesian',
+		ga: 'Irish',
+		it: 'Italian',
+		ja: 'Japanese',
+		jw: 'Javanese',
+		kn: 'Kannada',
+		kk: 'Kazakh',
+		km: 'Khmer',
+		ko: 'Korean',
+		ku: 'Kurdish (Kurmanji)',
+		ky: 'Kyrgyz',
+		lo: 'Lao',
+		la: 'Latin',
+		lv: 'Latvian',
+		lt: 'Lithuanian',
+		lb: 'Luxembourgish',
+		mk: 'Macedonian',
+		mg: 'Malagasy',
+		ms: 'Malay',
+		ml: 'Malayalam',
+		mt: 'Maltese',
+		mi: 'Maori',
+		mr: 'Marathi',
+		mn: 'Mongolian',
+		my: 'Myanmar (Burmese)',
+		ne: 'Nepali',
+		no: 'Norwegian',
+		ps: 'Pashto',
+		fa: 'Persian',
+		pl: 'Polish',
+		pt: 'Portuguese',
+		ma: 'Punjabi',
+		ro: 'Romanian',
+		ru: 'Russian',
+		sm: 'Samoan',
+		gd: 'Scots Gaelic',
+		sr: 'Serbian',
+		st: 'Sesotho',
+		sn: 'Shona',
+		sd: 'Sindhi',
+		si: 'Sinhala',
+		sk: 'Slovak',
+		sl: 'Slovenian',
+		so: 'Somali',
+		es: 'Spanish',
+		su: 'Sudanese',
+		sw: 'Swahili',
+		sv: 'Swedish',
+		tg: 'Tajik',
+		ta: 'Tamil',
+		te: 'Telugu',
+		th: 'Thai',
+		tr: 'Turkish',
+		uk: 'Ukrainian',
+		ur: 'Urdu',
+		uz: 'Uzbek',
+		vi: 'Vietnamese',
+		cy: 'Welsh',
+		xh: 'Xhosa',
+		yi: 'Yiddish',
+		yo: 'Yoruba',
+		zu: 'Zulu'
+	};
+
+	const options = Object.entries(languages).map(([key, label]) => ({ key, label }));
+
+	let selectedLang: string;
+
+	function handleSelection(event: any) {
+		selectedLang = event.target.options[event.target.selectedIndex].lang;
+	}
+
 	function getResponse(pushMessage: string) {
 		const header = new Headers();
 		header.append('Content-Type', 'application/x-www-form-urlencoded');
 
 		const urlencoded = new URLSearchParams();
-		urlencoded.append('text', pushMessage);
+		urlencoded.append('content', pushMessage);
+		urlencoded.append('language', selectedLang);
 
 		const requestOptions = {
 			method: 'POST',
@@ -78,7 +194,7 @@
 		};
 
 		// change to public api when available
-		fetch('http://f075-180-190-109-22.ngrok-free.app/aid-bot', requestOptions)
+		fetch('https://b89d-180-190-109-22.ngrok-free.app/aid-bot', requestOptions)
 			.then((response) => {
 				if (response.ok) {
 					return response.json();
@@ -100,19 +216,36 @@
 
 <main>
 	<h1>Chat Page</h1>
+	<div class="language-picker-container">
+		<form on:click|preventDefault={() => {}}>
+			<label for="language-picker-select"
+				>Response will be in English and a language of your choosing</label
+			>
+			<select
+				name="language-picker-select"
+				id="language-picker-select"
+				on:change={handleSelection}
+				disabled={isResLoading}
+			>
+				{#each options as lang}
+					<option lang={lang.key} value={lang.label}>{lang.label}</option>
+				{/each}
+			</select>
+		</form>
+	</div>
 
 	<div class="chat-container">
 		{#each $jsonMessage as chat, i}
 			{#if chat.role === 'bot'}
 				{#if i > 0 && $jsonMessage[i - 1].role === 'bot'}
-					<div transition:fade class="message-container continue bot">
+					<div in:fade class="message-container continue bot">
 						<img src={bot} alt="bot" class="empty" />
 						<p class="message">
 							{chat.message}
 						</p>
 					</div>
 				{:else}
-					<div transition:fade class="message-container bot">
+					<div in:fade class="message-container bot">
 						<img src={bot} alt="bot" />
 						<p class="message">
 							{chat.message}
@@ -121,14 +254,14 @@
 				{/if}
 			{:else if chat.role === 'user'}
 				{#if i > 0 && $jsonMessage[i - 1].role === 'user'}
-					<div transition:fade class="message-container continue user">
+					<div in:fade class="message-container continue user">
 						<img src={user} alt="user" class="empty" />
 						<p class="message">
 							{chat.message}
 						</p>
 					</div>
 				{:else}
-					<div transition:fade class="message-container user">
+					<div in:fade class="message-container user">
 						<img src={user} alt="user" />
 						<p class="message">
 							{chat.message}
@@ -141,7 +274,7 @@
 
 	{#if isResLoading}
 		{#key isResLoading}
-			<div transition:fade class="loading-container">
+			<div in:fade class="loading-container">
 				<p>Waiting for chat response...</p>
 			</div>
 		{/key}
@@ -178,6 +311,34 @@
 			font-size: $font-size-base;
 			margin: 0.5em 0 1em 0;
 			color: $text-darker;
+		}
+
+		.language-picker-container {
+			font-size: $font-size-base;
+			margin: 2em 0;
+			display: flex;
+			flex-wrap: wrap;
+			gap: 3em;
+			width: 100%;
+			align-items: center;
+
+			select {
+				background-color: #f2f2f2;
+				color: #333;
+
+				border: 1px solid #ccc;
+				border-radius: 4px;
+
+				padding: 0.6em 1em;
+				margin-top: 1em;
+
+				width: 100%;
+
+				appearance: none;
+				-webkit-appearance: none;
+				-moz-appearance: none;
+				cursor: pointer;
+			}
 		}
 
 		.chat-container {

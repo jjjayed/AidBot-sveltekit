@@ -26,8 +26,6 @@
 		}
 	}
 
-	// $:
-
 	function signUpPage() {
 		registered.set(true);
 		goto('/Account');
@@ -41,7 +39,12 @@
 		goto('/Chat');
 	}
 
+	import SweetScroll from 'sweet-scroll';
 	onMount(() => {
+		const sweetScroll = new SweetScroll({
+			easing: 'easeOutQuart'
+		});
+
 		const unsubscribe = auth.onAuthStateChanged((user) => {
 			authStore.update((curr) => {
 				return { ...curr, isLoading: false, currentUser: user };
@@ -62,8 +65,6 @@
 		return unsubscribe;
 	});
 </script>
-
-<svelte:body />
 
 <svelte:window bind:innerWidth={screenSize} />
 
@@ -155,7 +156,7 @@
 {/if}
 <!-- navbar next -->
 
-<slot><!-- optional fallback --></slot>
+<slot data-scroll><!-- optional fallback --></slot>
 
 {#if $page.url.pathname === '/' || ''}
 	<footer class:mobile={screenSize < 768}>
@@ -367,7 +368,7 @@
 			height: 2px;
 			background-color: $text-darker;
 			margin: 5px;
-			transition: all 0.4s ease;
+			transition: all 0.4s ease-in-out;
 		}
 
 		.toggle .line1 {

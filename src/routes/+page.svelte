@@ -4,8 +4,6 @@
 
 	let screenSize: number;
 
-	let test = true;
-
 	function signUpPage() {
 		registered.set(true);
 		goto('/Account');
@@ -13,8 +11,6 @@
 </script>
 
 <svelte:window bind:innerWidth={screenSize} />
-
-<svelte:body class:test />
 
 <main class:mobile={screenSize < 768}>
 	<div class="hero">
@@ -56,9 +52,6 @@
 </main>
 
 <style lang="scss">
-	:global(body.test) {
-		overflow: hidden;
-	}
 	main {
 		width: 100%;
 		margin-top: 5em;
