@@ -196,7 +196,7 @@
 		const API_ENDPOINT =
 			process.env.NODE_ENV === 'production' ? '/aid-bot' : 'http://localhost:5000/aid-bot';
 
-		fetch('/aid-bot', requestOptions)
+		fetch('/api/aid-bot', requestOptions)
 			.then((response) => {
 				if (response.ok) {
 					return response.json();

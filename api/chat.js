@@ -53,7 +53,7 @@ const promptTemplate = new PromptTemplate({
 const llmChain = new LLMChain({ llm: model, prompt: promptTemplate });
 
 // Main API Endpoint
-app.post('/aid-bot', cors(), async (req, res) => {
+app.post('/api/aid-bot', cors(), async (req, res) => {
 	/*
 	 * API Process Flow
 	 * 1. Problem Processing (Sentiment Analysis, Problem Prioritization)
