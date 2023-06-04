@@ -27,7 +27,7 @@ app.use(bodyParser.json());
 // 	console.log(`API Port: http://localhost:${process.env.API_PORT}`);
 // });
 
-app.listen();
+app.listen(process.env.API_ENDPOINT_LIVE);
 
 const model = new OpenAI({
 	openAIApiKey: process.env.OPENAI_API_KEY,
