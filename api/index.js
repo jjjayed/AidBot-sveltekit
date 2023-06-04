@@ -28,7 +28,7 @@ app.use(express.static('public'));
 // 	// console.log(`API Port: http://localhost:${process.env.API_PORT}`);
 // });
 
-app.listen();
+// app.listen();
 
 const model = new OpenAI({
 	openAIApiKey: process.env.OPENAI_API_KEY,
@@ -263,5 +263,5 @@ app.post('/api/aid-bot', cors(), async (req, res) => {
 		return res.json({ error: 'Failed to generate response' });
 	}
 });
-
+module.exports = app;
 export default app;
