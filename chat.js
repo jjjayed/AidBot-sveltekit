@@ -23,9 +23,7 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.listen(process.env.API_PORT, () => {
-	console.log(`API Port: http://localhost:${process.env.API_PORT}`);
-});
+app.listen();
 
 const model = new OpenAI({
 	openAIApiKey: process.env.OPENAI_API_KEY,
