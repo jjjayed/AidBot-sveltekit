@@ -23,11 +23,11 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.listen('https://aidbot-sveltekit.vercel.app/api/aid-bot', () => {
-	// console.log(`API Port: http://localhost:${process.env.API_PORT}`);
-});
+// app.listen('https://aidbot-sveltekit.vercel.app/api/aid-bot', () => {
+// 	// console.log(`API Port: http://localhost:${process.env.API_PORT}`);
+// });
 
-// app.listen();
+app.listen();
 
 const model = new OpenAI({
 	openAIApiKey: process.env.OPENAI_API_KEY,
@@ -53,7 +53,7 @@ const promptTemplate = new PromptTemplate({
 const llmChain = new LLMChain({ llm: model, prompt: promptTemplate });
 
 // Main API Endpoint
-app.post('https://aidbot-sveltekit.vercel.app/api/aid-bot', cors(), async (req, res) => {
+app.post('/api/aid-bot', cors(), async (req, res) => {
 	/*
 	 * API Process Flow
 	 * 1. Problem Processing (Sentiment Analysis, Problem Prioritization)
