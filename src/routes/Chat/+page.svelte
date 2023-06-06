@@ -193,7 +193,7 @@
 			redirect: 'follow'
 		};
 
-		fetch('https://7b5f-180-190-109-22.ngrok-free.app/aid-bot', requestOptions)
+		fetch('https://12fd-180-190-109-22.ngrok-free.app/aid-bot', requestOptions)
 			.then((response) => {
 				if (response.ok) {
 					return response.json();
